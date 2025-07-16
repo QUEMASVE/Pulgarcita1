@@ -2,6 +2,7 @@
 window.addEventListener('load', () => {
   const music = document.getElementById('bgMusic');
   music.volume = 0.5;
+  music.play().catch(() => {}); // intenta reproducir apenas carga
   animateBackground();
 });
 
@@ -37,40 +38,50 @@ function animateBackground() {
   }, 400);
 }
 
-// Scratch-off QR
+// Scratch-off QR que funciona en PC y celular
 function initScratch() {
   const canvas = document.getElementById('scratchCanvas');
   const ctx = canvas.getContext('2d');
   const { width, height } = canvas.getBoundingClientRect();
-  canvas.width = width; canvas.height = height;
-  ctx.fillStyle = '#bbb'; ctx.fillRect(0,0,width,height);
+  canvas.width = width;
+  canvas.height = height;
+  ctx.fillStyle = '#bbb';
+  ctx.fillRect(0, 0, width, height);
   ctx.globalCompositeOperation = 'destination-out';
 
-  let scratched = 0;
+  let scratching = false;
   const total = width * height;
+
   function updateScratched() {
-    const img = ctx.getImageData(0,0,width,height);
+    const img = ctx.getImageData(0, 0, width, height);
     let cnt = 0;
     for (let i = 3; i < img.data.length; i += 4) {
       if (img.data[i] < 255) cnt++;
     }
-    scratched = cnt;
-    if (scratched > total * 0.5) {
+    if (cnt > total * 0.5) {
       canvas.remove();
     }
   }
 
-  let scratching = false;
-  canvas.addEventListener('pointerdown', () => scratching = true);
+  function draw(x, y) {
+    ctx.beginPath();
+    ctx.arc(x, y, 25, 0, 2 * Math.PI);
+    ctx.fill();
+    updateScratched();
+  }
+
+  canvas.addEventListener('pointerdown', e => {
+    scratching = true;
+    const rect = canvas.getBoundingClientRect();
+    draw(e.clientX - rect.left, e.clientY - rect.top);
+  });
+
   canvas.addEventListener('pointerup', () => scratching = false);
+  canvas.addEventListener('pointerleave', () => scratching = false);
+
   canvas.addEventListener('pointermove', e => {
     if (!scratching) return;
     const rect = canvas.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    ctx.beginPath();
-    ctx.arc(x, y, 25, 0, 2*Math.PI);
-    ctx.fill();
-    updateScratched();
+    draw(e.clientX - rect.left, e.clientY - rect.top);
   });
 }
