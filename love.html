@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Carta de Amor 🎉</title>
+  <!-- Fuente romántica -->
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Overlay gira teléfono -->
+  <div id="rotateOverlay">
+    <div class="rotate-message">
+      <div class="icon">🔄</div>
+      <p>¡Gira tu teléfono para una mejor experiencia!</p>
+    </div>
+  </div>
+
+  <!-- Fondo animado -->
+  <div id="background"></div>
+
+  <!-- Carta cerrada -->
+  <div class="letter" id="card">
+    <div class="seal">❤️</div>
+    <div class="page">
+      <img src="foto.jpeg" alt="Tu Foto" class="portrait"/>
+      <h2>Mi Pulgarcita,</h2>
+      <p>Ingresa tu edad para abrir la carta:</p>
+      <div class="age-input">
+        <input type="number" id="age" min="1" placeholder="Edad" />
+        <button id="enterBtn">¡Ábrela!</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Carta abierta con scratch-off QR -->
+  <div class="modal hidden" id="letterModal">
+    <div class="modal-content">
+      <div class="opened-page">
+        <h2>¡Feliz Cumpleaños!</h2>
+        <p>
+          en este día especial tus padres me dieron el mejor regalo xd,<br>
+          ya en serio, le pido a Dios me permita verte sonreír muchas más veces<br>
+          en tu cumpleaños. Me alegra verte cumplir <span id="displayAge"></span> años.<br>
+          Recuerda que estoy para ti hoy, mañana y siempre.<br>
+          <strong>TE AMO MI AMOR....</strong>
+        </p>
+        <div class="scratch-container">
+          <canvas id="scratchCanvas"></canvas>
+          <img
+            id="qrImg"
+            src="https://api.qrserver.com/v1/create-qr-code/?data=https://www.canva.com/design/DAGtSv2SHkk/PdC179iv6UM_2KniouVFww&size=200x200"
+            alt="QR"/>
+        </div>
+        <p class="hint">Rasca aquí 🎁</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Música de fondo -->
+  <audio id="bgMusic" loop>
+    <source src="https://1drv.ms/u/c/77866b9dc75a6822/EdYWaYnl-h5IpijOJr8qgtkBS_8F6DumXBwu4RaduoGGqg?e=BIwj14" type="audio/mpeg">
+  </audio>
+
+  <script src="script.js"></script>
+</body>
+</html>
